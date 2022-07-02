@@ -1,0 +1,96 @@
+@use "/style/variables/color";
+@use "/style/variables/general";
+@use "/style/variables/spacing";
+@use "/style/variables/text";
+
+.note {
+  $no-of-rows: 5;
+
+  position: relative;
+  border-radius: general.$border-radius;
+  overflow: hidden;
+
+  & + & {
+    margin-top: spacing.$spacing-xl;
+  }
+
+  &__editable-content {
+    border: 1px solid color.$border;
+    background-color: color.$background;
+    padding: general.$input-padding;
+    border-radius: general.$border-radius;
+    height: spacing.$spacing-xl * $no-of-rows;
+    overflow: scroll;
+
+    &:empty {
+      cursor: pointer;
+
+      &:focus {
+        cursor: auto;
+
+        &:before {
+          content: attr(placeholder);
+          position: absolute;
+          z-index: 1;
+          color: color.$text-color-low;
+        }
+
+        &:after {
+          content: none;
+        }
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        background-color: color.$text-color-low;
+        mask-image: url("../icons/addPlusCircle.svg");
+        background-size: contain;
+        width: 50px;
+        height: 50px;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
+      }
+    }
+
+    &:focus {
+      box-shadow: color.$border-shadow-focus;
+      border-color: color.$border-focus;
+      outline: none;
+    }
+  }
+
+  // -- overflow indicator - start --
+  // making the overflow section smaller in order to to influence the editable element border
+  &:after,
+  &:before {
+    content: "";
+    position: absolute;
+    height: general.$input-padding-top-bottom;
+    width: calc(100% - #{general.$input-padding-left-right * 2});
+    left: general.$input-padding-left-right;
+    background: color.$background;
+    pointer-events: none;
+  }
+
+  &:before {
+    top: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(color.$background, 1) 0%,
+      rgba(color.$background, 0) 100%
+    );
+  }
+
+  &:after {
+    bottom: 1px;
+    background: linear-gradient(
+      0deg,
+      rgba(color.$background, 1) 0%,
+      rgba(color.$background, 0) 100%
+    );
+  }
+  // -- overflow indicator - end --
+}

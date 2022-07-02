@@ -1,0 +1,11 @@
+@use "/style/variables/text.scss";
+@use "/style/fonts.scss";
+
+body {
+  margin: 0;
+  font-family: text.$font-family;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: text.$font-size;
+  line-height: text.$line-height;
+}

@@ -1,0 +1,7 @@
+@use "./spacing.scss";
+
+$border-radius: 6px;
+
+$input-padding-top-bottom: spacing.$spacing-s;
+$input-padding-left-right: spacing.$spacing-m;
+$input-padding: $input-padding-top-bottom $input-padding-left-right;

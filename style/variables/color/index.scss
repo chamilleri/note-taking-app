@@ -1,0 +1,19 @@
+@use "./accent.scss";
+@use "./neutral.scss";
+
+$-primary: accent.$purple-500;
+$-secondary: neutral.$grey-100;
+
+$background--primary: $-primary;
+$background--secondary: $-secondary;
+$background: neutral.$white;
+
+$border: neutral.$grey-300;
+$border-focus: neutral.$grey-400;
+$border-shadow-focus: rgb(0 0 0 / 0.05);
+
+$text-color: neutral.$grey-800;
+$text-color-high: neutral.$grey-900;
+$text-color-low: neutral.$grey-300;
+
+$text-color--primary: neutral.$white;
