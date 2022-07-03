@@ -11,7 +11,11 @@
   overflow: hidden;
 
   & + & {
-    margin-top: spacing.$spacing-xl;
+    margin-top: spacing.$spacing-l;
+  }
+
+  & + &--new {
+    margin-top: spacing.$spacing-xxl;
   }
 
   &__editable-content {
@@ -21,6 +25,7 @@
     border-radius: general.$border-radius;
     height: spacing.$spacing-xl * $no-of-rows;
     overflow: scroll;
+    position: relative;
 
     &:empty {
       cursor: pointer;
@@ -62,35 +67,8 @@
     }
   }
 
-  // -- overflow indicator - start --
-  // making the overflow section smaller in order to to influence the editable element border
-  &:after,
-  &:before {
-    content: "";
-    position: absolute;
-    height: general.$input-padding-top-bottom;
-    width: calc(100% - #{general.$input-padding-left-right * 2});
-    left: general.$input-padding-left-right;
-    background: color.$background;
-    pointer-events: none;
+  &__id {
+    font-size: text.$font-size-subtext;
+    color: color.$text-color-medium;
   }
-
-  &:before {
-    top: 1px;
-    background: linear-gradient(
-      180deg,
-      rgba(color.$background, 1) 0%,
-      rgba(color.$background, 0) 100%
-    );
-  }
-
-  &:after {
-    bottom: 1px;
-    background: linear-gradient(
-      0deg,
-      rgba(color.$background, 1) 0%,
-      rgba(color.$background, 0) 100%
-    );
-  }
-  // -- overflow indicator - end --
 }

@@ -4,7 +4,7 @@ import Note from "./Note";
 
 describe("edit note", () => {
   test("modify note", () => {
-    render(<Note />);
+    render(<Note onChange={() => {}} />);
 
     const noteEditable = screen.getByTestId("note-editable");
     expect(noteEditable).toBeEmptyDOMElement();
