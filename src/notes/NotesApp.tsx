@@ -48,10 +48,6 @@ export function NotesApp() {
 
   const saveNote = (body: string, id: number = -1) => {
     console.debug("[SAVE] saveNote (body, id)", body, id);
-    const noteToSave = {
-      id: id,
-      body: body,
-    };
 
     const updateState = (savedNote: Note) => {
       const existingNode = notes.find((note) => note.id === savedNote.id);
@@ -64,14 +60,23 @@ export function NotesApp() {
 
     //TODO: remove mock after api is fixed
     mock.current
-      ? saveNoteToSessionMock(getSessionId(), noteToSave, notes.length).then(
-          (savedNote) => {
-            console.debug("[PROMISE] saveNote <mock> (savedNote)", savedNote);
-            updateState(savedNote);
-          }
-        )
+      ? saveNoteToSessionMock(
+          getSessionId(),
+          {
+            id: id,
+            body: body,
+          },
+          notes.length
+        ).then((savedNote) => {
+          console.debug("[PROMISE] saveNote <mock> (savedNote)", savedNote);
+          updateState(savedNote);
+        })
       : //TODO: invesitgate why a new note is being created on each POST rather than updating note with existing id
-        saveNoteToSession(getSessionId(), noteToSave).then((savedNote) => {
+        saveNoteToSession(getSessionId(), {
+          id: id,
+          //workaround to have an empty note as "" is not accepted by the service
+          body: body || " ",
+        }).then((savedNote) => {
           console.debug("[PROMISE] saveNote (savedNote)", savedNote);
           updateState(savedNote);
         });
