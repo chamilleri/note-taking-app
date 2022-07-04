@@ -2,9 +2,7 @@
 
 An app where one can create rich text notes which persist thought ones session. For simulating notes being shared with the community the notes support an @mention feature.
 
-Due to react-quill not officially supporting reacte v18 the project need to be built with `npm i --legacy-peer-deps`
-
-I noticed that the POST call is creating a new call with each call rather that updating the existing note. In the meantime I made the application to run agains the bakand and to be able to mock creating new notes. This can be done by appenting `?mock=true` to the urls.
+I noticed that the POST call is creating a new note with each call rather that updating the existing note. In the meantime I set it up so that the application can be run against the bakand or against a mock (to create new notes). This can be done by appenting `?mock=true` to the urls.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
