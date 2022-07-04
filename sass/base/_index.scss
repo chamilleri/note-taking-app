@@ -1,5 +1,5 @@
-@use "/style/variables/text.scss";
-@use "/style/fonts.scss";
+@use "/sass/variables/text";
+@use "/sass/base/typography";
 
 body {
   margin: 0;

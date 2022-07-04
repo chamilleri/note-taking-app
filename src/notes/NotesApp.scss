@@ -1,8 +1,8 @@
-@use "/style/variables/color/accent";
-@use "/style/variables/color";
-@use "/style/variables/spacing";
-@use "/style/variables/text";
-@use "/style/variables/general";
+@use "/sass/variables/color/accent";
+@use "/sass/variables/color";
+@use "/sass/variables/spacing";
+@use "/sass/variables/text";
+@use "/sass/variables/general";
 
 .notes-app {
   $base: &;

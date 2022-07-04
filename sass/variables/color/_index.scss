@@ -1,5 +1,5 @@
-@use "./accent.scss";
-@use "./neutral.scss";
+@use "./accent";
+@use "./neutral";
 
 $-primary: accent.$purple-500;
 $-primary-light: accent.$purple-100;
