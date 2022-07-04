@@ -1,0 +1,20 @@
+@use "/style/variables/color";
+@use "/style/variables/general";
+@use "/style/variables/spacing";
+@use "/style/variables/text";
+
+.note {
+  position: relative;
+
+  &__id {
+    font-size: text.$font-size-subtext;
+    color: color.$text-color-medium;
+  }
+
+  .mention {
+    background-color: color.$background--primary-light;
+    color: color.$text-color--primary-light;
+    border-radius: general.$border-radius;
+    padding: spacing.$spacing-xxs spacing.$spacing-xs;
+  }
+}

@@ -2,74 +2,112 @@ import { useEffect, useRef, useState } from "react";
 import { getSessionId, useMock } from "../utils";
 import {
   getNotesBySession,
-  Note as NoteType,
-  saveNoteBySession,
-  saveNoteBySessionMock,
+  getUsers,
+  saveNoteToSession,
+  saveNoteToSessionMock,
 } from "./api";
-import { uniqueId } from "lodash";
-import Note from "./Note";
+import NoteComponent from "./NoteComponent";
+import { MentionUsers, Note } from "./types";
 import "./NotesApp.scss";
+
+type AddNoteActionProps = {
+  className?: string;
+  onClick: () => void;
+};
+
+const AddNoteAction = ({
+  className = "",
+  onClick,
+  ...rest
+}: AddNoteActionProps) => (
+  <button className={className} onClick={onClick} {...rest}>
+    New Note
+  </button>
+);
 
 export function NotesApp() {
   const mock = useRef(useMock());
-  const [notes, setNotes] = useState<NoteType[]>([]);
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [mentionUsers, setMentionUsers] = useState<MentionUsers[]>([]);
 
   useEffect(() => {
     getNotesBySession(getSessionId()).then((notes) => {
       console.debug("[EFFECT] getNotesBySession (notes)", notes);
       setNotes(notes);
     });
+    getUsers().then((data) => {
+      setMentionUsers(
+        data.map((user) => ({ id: user["username"], value: user["username"] }))
+      );
+    });
   }, []);
 
+  const addNote = () => {
+    saveNote("");
+  };
+
   const saveNote = (body: string, id: number = -1) => {
-    console.debug("saveNote (body, id)", body, id);
+    console.debug("[SAVE] saveNote (body, id)", body, id);
     const noteToSave = {
       id: id,
       body: body,
     };
 
-    const updateState = (exists: boolean, savedNote: NoteType) => {
-      setNotes(
-        exists
-          ? notes.map((note) => (note.id === savedNote.id ? savedNote : note))
-          : [...notes, savedNote]
-      );
+    const updateState = (savedNote: Note) => {
+      const existingNode = notes.find((note) => note.id === savedNote.id);
+      if (existingNode) {
+        existingNode.body = savedNote.body;
+        return;
+      }
+      setNotes([...notes, savedNote]);
     };
 
     //TODO: remove mock after api is fixed
     mock.current
-      ? saveNoteBySessionMock(getSessionId(), noteToSave, notes.length).then(
+      ? saveNoteToSessionMock(getSessionId(), noteToSave, notes.length).then(
           (savedNote) => {
             console.debug("[PROMISE] saveNote <mock> (savedNote)", savedNote);
-            updateState(id !== -1, savedNote);
+            updateState(savedNote);
           }
         )
-      : saveNoteBySession(getSessionId(), noteToSave).then((savedNote) => {
+      : //TODO: invesitgate why a new note is being created on each POST rather than updating note with existing id
+        saveNoteToSession(getSessionId(), noteToSave).then((savedNote) => {
           console.debug("[PROMISE] saveNote (savedNote)", savedNote);
-          //TODO: invesitgate why a new note is being created on each POST rather than updating note with existing id
-          updateState(
-            notes.find((note) => note.id === savedNote.id) !== undefined,
-            savedNote
-          );
+          updateState(savedNote);
         });
   };
 
-  console.debug("[RENDER] (notes, mock)", notes, mock.current);
+  console.debug("[RENDER NOTESAPP] (notes, mock)", notes, mock.current);
+
   return (
-    <div className="notes-app">
+    <div
+      data-testid="notesApp"
+      className={"notes-app" + (notes.length === 0 ? " notes-app--init" : "")}
+    >
       <header className="notes-app__header">
         <h1>Notes</h1>
+        <AddNoteAction
+          className="notes-app__add-new-note"
+          onClick={() => addNote()}
+          data-testid="addNoteInHeader"
+        />
       </header>
 
       <div className="notes-app__notes">
         {notes.map((note) => (
-          <Note
+          <NoteComponent
             key={"note" + note.id}
             note={note}
             onChange={(body) => saveNote(body, note.id)}
+            mentionUsers={mentionUsers}
           />
         ))}
-        <Note key={uniqueId("new")} onChange={(body) => saveNote(body)} />
+
+        <AddNoteAction
+          className="notes-app__add-new-note"
+          onClick={() => addNote()}
+          data-testid="addNoteInNotes"
+        />
       </div>
     </div>
   );

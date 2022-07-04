@@ -1,0 +1,36 @@
+@use "/style/variables/color";
+@use "/style/variables/general";
+@use "/style/variables/spacing";
+@use "/style/variables/text";
+
+.rich-text-editor {
+  background-color: color.$background;
+
+  .ql-editor {
+    height: 150px;
+  }
+
+  .ql-mention-list-container {
+    z-index: 1;
+    box-shadow: 0 0 1px 1px color.$border-shadow-focus;
+  }
+
+  .ql-mention-list {
+    background-color: color.$background;
+    max-height: 180px;
+    overflow: scroll;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ql-mention-list-item {
+    padding: spacing.$spacing-s spacing.$spacing-m;
+    cursor: pointer;
+
+    &:hover {
+      background-color: color.$background--primary-light;
+      color: color.$text-color--primary-light;
+    }
+  }
+}

@@ -8,14 +8,20 @@ describe("initial state", () => {
     expect(headingElement).toBeInTheDocument();
   });
 
-  test("renders one note", () => {
-    const { container } = render(<NotesApp />);
+  test("renders no note", () => {
+    render(<NotesApp />);
 
-    const notes = screen.getAllByTestId("note");
-    expect(notes.length).toBe(1);
-    expect(container).toContainElement(notes[0]);
+    const note = screen.queryByTestId("note");
+    expect(note).toBeNull();
+  });
 
-    const noteEditable = screen.getByTestId("note-editable");
-    expect(noteEditable).toBeEmptyDOMElement();
+  test("renders add note button in notes section", () => {
+    render(<NotesApp />);
+
+    const notesApp = screen.getByTestId("notesApp");
+    expect(notesApp.classList).toContain("notes-app--init");
+
+    const addNoteInNotes = screen.getByTestId("addNoteInNotes");
+    expect(addNoteInNotes).toBeVisible();
   });
 });

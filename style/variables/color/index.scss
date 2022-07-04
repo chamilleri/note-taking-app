@@ -2,9 +2,11 @@
 @use "./neutral.scss";
 
 $-primary: accent.$purple-500;
+$-primary-light: accent.$purple-100;
 $-secondary: neutral.$grey-100;
 
 $background--primary: $-primary;
+$background--primary-light: $-primary-light;
 $background--secondary: $-secondary;
 $background: neutral.$white;
 
@@ -18,3 +20,4 @@ $text-color-medium: neutral.$grey-500;
 $text-color-low: neutral.$grey-300;
 
 $text-color--primary: neutral.$white;
+$text-color--primary-light: accent.$purple-500;

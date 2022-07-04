@@ -2,12 +2,41 @@
 @use "/style/variables/color";
 @use "/style/variables/spacing";
 @use "/style/variables/text";
+@use "/style/variables/general";
 
 .notes-app {
-  min-height: 100vh;
+  $base: &;
 
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  &--init {
+    #{$base}__add-new-note {
+      display: none;
+    }
+
+    #{$base}__notes {
+      grid-template-columns: repeat(1, 1fr);
+      grid-template-rows: 1fr;
+      grid-column-gap: spacing.$spacing-xxl;
+      grid-row-gap: spacing.$spacing-xxl;
+      align-items: center;
+      justify-items: center;
+
+      #{$base}__add-new-note {
+        display: block;
+        background-color: color.$background--primary;
+        color: color.$text-color--primary;
+        padding: spacing.$spacing-l spacing.$spacing-xl;
+
+        &:hover {
+          background-color: color.$background--primary-light;
+          color: color.$text-color;
+        }
+      }
+    }
+  }
 
   &__header {
     background-color: color.$background--primary;
@@ -18,6 +47,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: spacing.$spacing-xl 0;
 
     h1 {
       font-size: text.$font-size-heading;
@@ -28,5 +58,44 @@
     padding: spacing.$spacing-xl;
     background-color: color.$background--secondary;
     flex: 1 auto;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: spacing.$spacing-m;
+    grid-row-gap: spacing.$spacing-m;
+    align-items: start;
+    justify-items: center;
+    justify-content: space-evenly;
+
+    #{$base}__add-new-note {
+      display: none;
+    }
+  }
+
+  &__add-new-note {
+    background-color: color.$background--secondary;
+    border-radius: general.$border-radius;
+    border: 1px solid color.$border;
+    padding: spacing.$spacing-s spacing.$spacing-m;
+    font-size: text.$font-size;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 120ms ease-in-out, background 120ms ease-in-out;
+
+    &:hover {
+      background-color: color.$background;
+    }
+  }
+
+  @media only screen and (min-width: 600px) {
+    &__notes {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media only screen and (min-width: 960px) {
+    &__notes {
+      grid-template-columns: repeat(3, minmax(auto, 30%));
+    }
   }
 }

@@ -1,7 +1,4 @@
-export type Note = {
-  id: number;
-  body: string;
-};
+import { Note } from "./types";
 
 export const getNotesBySession = async (session: string): Promise<Note[]> => {
   return await fetch(`https://challenge.leadjet.io/${session}/notes`)
@@ -11,7 +8,7 @@ export const getNotesBySession = async (session: string): Promise<Note[]> => {
     });
 };
 
-export const saveNoteBySession = async (
+export const saveNoteToSession = async (
   session: string,
   note: Note
 ): Promise<Note> => {
@@ -26,9 +23,18 @@ export const saveNoteBySession = async (
   }).then((response) => response.json());
 };
 
-export const saveNoteBySessionMock = (
+//TODO: remove mock after api is fixed
+export const saveNoteToSessionMock = (
   session: string,
   note: Note,
   noOfNotes: number
 ): Promise<Note> =>
   Promise.resolve({ id: note.id > -1 ? note.id : noOfNotes, body: note.body });
+
+export const getUsers = async (): Promise<[]> => {
+  return await fetch("https://challenge.leadjet.io/users")
+    .then((response) => response.json())
+    .then((data) => {
+      return data;
+    });
+};
